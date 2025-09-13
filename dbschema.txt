@@ -1,0 +1,144 @@
+
+CREATE DATABASE IF NOT EXISTS `task` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `task`;
+
+
+
+
+
+CREATE TABLE `blog_authors` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `blog_authors` (`id`, `name`, `email`) VALUES
+(1, 'Alice Johnson', 'alice@gmail.com'),
+(2, 'Bob Smith', 'bob@gmail.com');
+
+
+
+
+
+CREATE TABLE `blog_categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+INSERT INTO `blog_categories` (`id`, `name`, `slug`) VALUES
+(1, 'Popular', 'popular'),
+(2, 'Fun', 'fun'),
+(3, 'Horror', 'horror');
+
+
+
+
+CREATE TABLE `blogs` (
+  `id` int(11) NOT NULL,
+  `author_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `page_title` varchar(255) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `views` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+INSERT INTO `blogs` (`id`, `author_id`, `category_id`, `title`, `page_title`, `content`, `status`, `views`) VALUES
+(1, 1, 2, 'My First Blog Post', 'My First Blog Post Page Title', 'This is the content of the first blog post.', 1, 150),
+(2, 2, 1, 'Exploring PHP', 'A Guide to PHP Basics', 'PHP is a popular server-side scripting language.', 1, 255);
+
+
+
+CREATE TABLE `blog_tags` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `blog_tags` (`id`, `name`, `slug`, `description`) VALUES
+(1, 'Famous', 'famous-blogs', 'Famous things'),
+(2, 'Beautiful', 'beautiful-spots', 'Beautiful spots');
+
+
+
+
+CREATE TABLE `countries` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `alpha_2_code` varchar(2) DEFAULT NULL,
+  `alpha_3_code` varchar(3) DEFAULT NULL,
+  `calling_code` varchar(10) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+INSERT INTO `countries` (`id`, `name`, `alpha_2_code`, `alpha_3_code`, `calling_code`, `active`) VALUES
+(1, 'India', 'IN', 'IND', '91', 1),
+(2, 'United States', 'US', 'USA', '1', 1);
+
+
+CREATE TABLE `state` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+INSERT INTO `state` (`id`, `name`, `country_id`, `active`) VALUES
+(1, 'Maharashtra', 1, 1),
+(2, 'California', 2, 1);
+
+
+
+
+CREATE TABLE `city` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `state_id` int(11) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+INSERT INTO `city` (`id`, `name`, `state_id`, `active`) VALUES
+(1, 'Mumbai', 1, 1),
+(2, 'Los Angeles', 2, 1);
+
+
+
+ALTER TABLE `blog_authors` ADD PRIMARY KEY (`id`);
+ALTER TABLE `blog_categories` ADD PRIMARY KEY (`id`);
+ALTER TABLE `blogs` ADD PRIMARY KEY (`id`);
+ALTER TABLE `blog_tags` ADD PRIMARY KEY (`id`);
+ALTER TABLE `countries` ADD PRIMARY KEY (`id`);
+ALTER TABLE `state` ADD PRIMARY KEY (`id`);
+ALTER TABLE `city` ADD PRIMARY KEY (`id`);
+
+
+
+ALTER TABLE `blog_authors` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `blog_categories` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `blogs` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `blog_tags` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `countries` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `state` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `city` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
